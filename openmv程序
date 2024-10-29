@@ -1,0 +1,17 @@
+# OpenMV Cam UART3_TX(P4) ----> Arduino Uno UART_RX(5)
+# OpenMV Cam UART3_RX(P5) ----> Arduino Uno UART_TX(6)
+import time
+from pyb import UART
+
+uart = UART(3, 9600,timeout=10000000,read_buf_len=1)
+
+while True :
+     receive = uart.read(1)  #读到一个数据，把一个数据赋值给receive
+     print(receive)  #读到8会变成b'8'
+     time.sleep_ms(200)
+     if receive == b'8' :#与arduino通讯
+        print("receive")
+        time.sleep_ms(2000)
+        uart.write('n')#发送完成信号
+        print("transmit")
+        break
